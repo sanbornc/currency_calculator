@@ -13,27 +13,61 @@ class Currency {
   double? get usdRate => _usdRate;
   int? get decimalDigits => _decimalDigits;
 
+Map<String, String> currencyToFlag = {
+  "AUD": "🇦🇺",
+  "BGN": "🇧🇬",
+  "BRL": "🇧🇷",
+  "CAD": "🇨🇦",
+  "CHF": "🇨🇭",
+  "CNY": "🇨🇳",
+  "CZK": "🇨🇿",
+  "DKK": "🇩🇰",
+  "EUR": "🇪🇺",
+  "GBP": "🇬🇧",
+  "HKD": "🇭🇰",
+  "HRK": "🇭🇷",
+  "HUF": "🇭🇺",
+  "IDR": "🇮🇩",
+  "ILS": "🇮🇱",
+  "INR": "🇮🇳",
+  "ISK": "🇮🇸",
+  "JPY": "🇯🇵",
+  "KRW": "🇰🇷",
+  "MXN": "🇲🇽",
+  "MYR": "🇲🇾",
+  "NOK": "🇳🇴",
+  "NZD": "🇳🇿",
+  "PHP": "🇵🇭",
+  "PLN": "🇵🇱",
+  "RON": "🇷🇴",
+  "RUB": "🇷🇺",
+  "SEK": "🇸🇪",
+  "SGD": "🇸🇬",
+  "THB": "🇹🇭",
+  "TRY": "🇹🇷",
+  "USD": "🇺🇸",
+  "ZAR": "🇿🇦",
+};
+
+  String get flagText {
+    if (currencyToFlag.containsKey(_code)) { 
+      return currencyToFlag[_code] ?? '?';
+    } else {
+      return _code ?? '?';
+    }
+  }
+
   set usdRate (double? usdRate) => _usdRate = usdRate;
   
 
-  Currency({String? code, String? name, String? symbol, String flag = "", double usdRate = 1, int decimalDigits = 2}) {
+  Currency({String? code, String? name, String? symbol, double usdRate = 1, int decimalDigits = 2}) {
     _code = code;
     _name = name;
     _symbol = symbol;
-    _flag = flag;
     _usdRate = usdRate;
     _decimalDigits = decimalDigits;
   }
 
-  static Currency fromJson(Map<String, dynamic> json) {
-    return Currency(
-      code: json['code'],
-      name: json['name'],
-      symbol: json['symbol_native'],
-    );
-  }
-
-  static Currency usd = Currency(code: "USD", name: "United States Dollar", symbol: "\$", flag: "🇺🇸", usdRate: 1);
+  static Currency usd = Currency(code: "USD", name: "United States Dollar", symbol: "\$", usdRate: 1);
   
 }
-

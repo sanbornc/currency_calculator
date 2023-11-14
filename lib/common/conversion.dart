@@ -10,7 +10,13 @@ class Conversion {
     _rawText = rawText;
   }
 
-  double get amount => double.parse(_rawText == "" ? "0" : _rawText);
+  double get amount {
+    if(_rawText == "" || _rawText == "0." || _rawText == ".") {
+      return 0;
+    }
+     
+    return double.parse(_rawText);
+  }
   
   set amount(double amount) => _rawText = amount.toString();
 
@@ -23,13 +29,13 @@ class Conversion {
   }
 
   void backSpace() {
-    if (amount.toString().isNotEmpty){
-      _rawText = _rawText.substring(0, _rawText.toString().length - 1);
+    if (_rawText.isNotEmpty){
+      _rawText = _rawText.substring(0, _rawText.length - 1);
     }
   }
 
   void appendDigit(int digit) {
-    if(amount > 0) {
+    if(_rawText =="0." || _rawText == "." || amount > 0) {
       _rawText = _rawText + digit.toString();
     } else {
       _rawText = digit.toString();

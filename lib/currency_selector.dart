@@ -6,17 +6,21 @@ class CurrencySelector extends StatelessWidget {
   final Currency selectedCurrency;
   final List<Currency> currencies;
 
-  const CurrencySelector(this.currencies, this.onCurrencySelected, this.selectedCurrency, {Key? key}) : super(key: key);
+  const CurrencySelector(this.currencies, this.onCurrencySelected, this.selectedCurrency, {super.key});
 
   @override
   Widget build(BuildContext context) {
 
     return CupertinoPicker(
-      itemExtent: 32, 
+      itemExtent: 40, 
+      magnification:1.10 ,
       onSelectedItemChanged: (int selectedItem) {
         onCurrencySelected(currencies[selectedItem]);
       },
-      scrollController: FixedExtentScrollController(initialItem: currencies.indexOf(selectedCurrency)),
+      scrollController: FixedExtentScrollController(
+        initialItem: currencies.indexOf(selectedCurrency), 
+        
+      ),
       children: 
         List<Widget>.generate(currencies.length, (index) {
           return buildCurrencySelection(currencies[index]);
@@ -27,19 +31,23 @@ class CurrencySelector extends StatelessWidget {
 
 Widget buildCurrencySelection(Currency currency) {
   return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
           Container(
-            padding: const EdgeInsets.fromLTRB(8.0, 0, 0, 0),
+            padding: const EdgeInsets.fromLTRB(30.0, 0, 0, 0),
             child: 
               Text( 
-                currency.flag ?? "",
+                currency.flagText,
+                style: const TextStyle(
+                  fontSize: 24.0,
+                ),
               ),
           ),
           Expanded( 
             child: Text(
-              currency.name ?? "",
-              textAlign: TextAlign.center,
+              "  ${currency.name ?? ""}",
+              textAlign: TextAlign.left,
+              style: const TextStyle(fontSize: 24.0),
             ),
           )
       ],

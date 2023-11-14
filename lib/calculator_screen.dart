@@ -22,12 +22,18 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
 
   @override void initState() {
     // TODO: implement initState
-    CurrencyRepo.fetchCurrencies().then((value) => {
-      setState(() {
-        currencies = value;
-      })
-    });
+    refresh();
     super.initState();
+  }
+
+  void refresh() {
+    setState(() {
+      CurrencyRepo.fetchCurrencies().then((value) => {
+        setState(() {
+          currencies = value;
+        })
+      });
+    });
   }
 
   void handleButtonPress(String text) {
@@ -83,8 +89,8 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
     showCupertinoModalPopup<void>(
       context: context,
       builder: (BuildContext context)  => Container(
-        height: 216,
-        padding: const EdgeInsets.only(top: 6.0),
+        height: 300,
+        padding: const EdgeInsets.only(top: 0.0),
         // The Bottom margin is provided to align the popup above the system navigation bar.
         margin: EdgeInsets.only(
           bottom: MediaQuery.of(context).viewInsets.bottom,
@@ -119,6 +125,12 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Currency Calculator'),
+        actions: [
+          IconButton(
+            onPressed: () => refresh(),
+            icon: const Icon(Icons.refresh),
+          )
+        ],
       ),
       body: Container(
         padding: const EdgeInsets.all(16.0),
@@ -166,12 +178,6 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                 CalculatorButton('0', handleButtonPress),
                 CalculatorButton('.', handleButtonPress),
               ],
-            ),
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Text( 'Powered by exchangerate-api.com'),
-              ]
             ),
           ],
         ),
